@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "declaration": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/discord-api-types"
+    ],
+  },
+  "include": [
+    "src/*",
+    "src/**/*"
+  ]
+}
