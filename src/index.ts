@@ -30,7 +30,15 @@ client.on('interactionCreate', async (interaction: Discord.Interaction) => {
 	if (!interaction.isCommand()) return;
 
 	const config = Config.ServerConfigFromID(interaction.guildId);
-	if (!(interaction.member.roles as Discord.GuildMemberRoleManager).cache.has(config.GKZAdminRole)) return;
+	if (!(interaction.member.roles as Discord.GuildMemberRoleManager).cache.has(config.GKZAdminRole)
+		&& interaction.guild?.ownerId != interaction.user.id) {
+		interaction.reply({
+			content: 'You do not have permission to use this command.',
+			ephemeral: true,
+		});
+
+		return;
+	}
 
 	const command = commands.get(interaction.commandName);
 
