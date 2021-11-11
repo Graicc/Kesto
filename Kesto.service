@@ -1,0 +1,16 @@
+[Install]
+WantedBy=multi-user.target
+[Unit]
+Description=Gorilla KZ Discord server bot
+After=GorillaKZServer.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+ExecStart=bin/sh -c 'cd /home/graic/kesto; /usr/bin/npm run compile'
+
+SyslogIdentifier=Kesto
+
+[Install]
+WantedBy=multi-user.target
