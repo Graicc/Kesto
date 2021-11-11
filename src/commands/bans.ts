@@ -59,6 +59,32 @@ module.exports = {
 					.setRequired(true),
 				),
 			),
+		)
+		.addSubcommandGroup(group => group
+			.setName('run')
+			.setDescription('Manages run bans')
+			// .addSubcommand(subcommand => subcommand
+			// 	.setName('list')
+			// 	.setDescription('Lists all run bans'),
+			// )
+			.addSubcommand(subcommand => subcommand
+				.setName('add')
+				.setDescription('Adds a run ban')
+				.addIntegerOption(option => option
+					.setName('run')
+					.setDescription('The run to ban')
+					.setRequired(true),
+				),
+			)
+			.addSubcommand(subcommand => subcommand
+				.setName('remove')
+				.setDescription('Removes a run ban')
+				.addIntegerOption(option => option
+					.setName('run')
+					.setDescription('The run to unban')
+					.setRequired(true),
+				),
+			),
 		),
 	async execute(interaction: Discord.CommandInteraction) {
 		const subCommandGroup = interaction.options.getSubcommandGroup();
@@ -71,6 +97,7 @@ module.exports = {
 
 		const ip : string | null = interaction.options.getString('ip');
 		const user : string | null = interaction.options.getString('user');
+		const run : number | null = interaction.options.getInteger('run');
 		switch (subCommandGroup) {
 		case 'ip':{
 			switch (subCommand) {
@@ -153,6 +180,54 @@ module.exports = {
 					if (response) {
 						reply.content = `Removed user ban for ${user}`;
 						LogInteraction(`Unbanned user: ${user}`, interaction);
+					}
+					else {
+						reply.content = 'An error occured';
+					}
+				}
+				else {
+					reply.content = 'An error occured';
+				}
+				break;
+			}
+			}
+			break;
+		}
+		case 'run': {
+			switch (subCommand) {
+			// case 'list': {
+			// 	const response = await Backend.getRunBans();
+			// 	if (response) {
+			// 		reply.content = 'Bans:\n' + response.data.join('\n');
+			// 	}
+			// 	else {
+			// 		reply.content = 'An error occured';
+			// 	}
+			// 	break;
+			// }
+			case 'add': {
+				if (run != null) {
+					const response = await Backend.addRunBan(run);
+					if (response) {
+						reply.content = `Added run ban for ${run} ${response.data.runner} ${response.data.ip}`;
+						LogInteraction(`Banned run: ${run} ${response.data.runner} ${response.data.ip}`, interaction);
+					}
+					else {
+						reply.content = 'An error occured';
+					}
+				}
+				else {
+					reply.content = 'An error occured: no run';
+				}
+				break;
+
+			}
+			case 'remove': {
+				if (run != null) {
+					const response = await Backend.removeRunBan(run);
+					if (response) {
+						reply.content = `Removed run ban for ${run} ${response.data.runner} ${response.data.ip}`;
+						LogInteraction(`Unbanned run: ${run} ${response.data.runner} ${response.data.ip}`, interaction);
 					}
 					else {
 						reply.content = 'An error occured';

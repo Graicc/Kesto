@@ -41,6 +41,16 @@ export function removeUserBan(user: string) {
 		.catch(error => { console.log(error); });
 }
 
+export function addRunBan(run: number) {
+	return service.post('/admin/bans/run', `${run}`)
+		.catch(error => { console.log(error); });
+}
+
+export function removeRunBan(run: number) {
+	return service.delete(`/admin/bans/run/${run}`)
+		.catch(error => { console.log(error); });
+}
+
 export function getMaps() {
 	return service.get('/admin/maps')
 		.catch(error => { console.log(error); });
