@@ -8,7 +8,7 @@ After=GorillaKZServer.service
 Type=simple
 Restart=always
 RestartSec=5s
-ExecStart=bin/sh -c 'cd /home/graic/kesto; /usr/bin/npm run compile'
+ExecStart=/bin/sh -c 'cd /home/graic/kesto; /usr/bin/npm run compile'
 
 SyslogIdentifier=Kesto
 
